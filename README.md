@@ -5,3 +5,4 @@ Tech stack that will be used:
 - Docker
 - Git & github
 - Terraform
+BROKEN_CONFIG=true
