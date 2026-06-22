@@ -1,1 +1,2 @@
-bus_api_url = 'https://api.dublinbus.ie/v2'
+bus_api_url = 'https://gtfsr.transportforireland.ie'
+
