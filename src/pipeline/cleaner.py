@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 
-DELAY_LOWER_BOUND = -600
+DELAY_LOWER_BOUND = -2400 # i changed this from -600 because after testing i noticed -600 was a bit too strict
 HOUR = 3600
 DST_TOLERANCE = 120  # seconds — how close to a clean hour-multiple counts as a likely artifact
 
