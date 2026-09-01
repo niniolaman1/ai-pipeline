@@ -17,6 +17,7 @@ services:
       - .env
     environment:
       POSTGRES_HOST: postgres
+    restart: unless-stopped
 
 volumes:
   citypulse-db-data:

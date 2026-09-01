@@ -10,5 +10,6 @@ dependencies = [
     "uvicorn",
     "requests",
     "gtfs-realtime-bindings",
-    "python-dotenv"
+    "python-dotenv",
+    "psycopg2-binary"
 ]
