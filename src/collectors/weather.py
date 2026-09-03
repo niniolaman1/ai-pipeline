@@ -1,6 +1,11 @@
 import requests
 from xml.etree import ElementTree as ET
 from pipeline.weather_cleaner import clean_weather
+from pipeline.weather_loader import insert_weather
+import time
+from dotenv import load_dotenv
+
+load_dotenv()
 
 locations = [
     (53.3498, -6.2603),   # city centre
@@ -31,19 +36,19 @@ def fetch_weather(lat, long):
     return root
 
 def main():
-    all_rows = []
-    for lat, long in locations:
-        root = fetch_weather(lat, long)
-        if root is None:
-            continue
-        rows = clean_weather(root)
-        all_rows.extend(rows)
+    while True:
+        all_rows = []
+        for lat, long in locations:
+            root = fetch_weather(lat, long)
+            if root is None:
+                continue
+            rows = clean_weather(root)
+            all_rows.extend(rows)
 
-        print(len(all_rows))
-        print(all_rows[0])
-        print(all_rows[-1])
+        insert_weather(all_rows)
+        time.sleep(300)
 
-    return all_rows
+
 
 
 if __name__ == "__main__":
