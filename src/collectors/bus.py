@@ -3,8 +3,8 @@ import requests
 from dotenv import load_dotenv
 import certifi
 import time
-from pipeline.cleaner import clean_trip_updates
-from pipeline.loader import insert_trip_updates
+from pipeline.bus_cleaner import clean_trip_updates
+from pipeline.bus_loader import insert_trip_updates
 
 def fetch_gtfs_rt():
     load_dotenv()

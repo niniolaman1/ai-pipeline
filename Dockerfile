@@ -8,4 +8,4 @@ COPY src/ src/
 
 RUN pip install -e .
 
-CMD ["python", "-u", "src/collectors/bus.py"]
+

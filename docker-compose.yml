@@ -18,6 +18,18 @@ services:
     environment:
       POSTGRES_HOST: postgres
     restart: unless-stopped
+    command: ["python", "-u", "src/collectors/bus.py"]
+
+  weather-collector:
+    build: .
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    environment:
+      POSTGRES_HOST: postgres
+    restart: unless-stopped
+    command: ["python", "-u", "src/collectors/weather.py"]
 
 volumes:
   citypulse-db-data:
