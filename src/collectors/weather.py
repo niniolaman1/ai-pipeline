@@ -1,8 +1,16 @@
 import requests
 from xml.etree import ElementTree as ET
+from pipeline.weather_cleaner import clean_weather
 
-def fetch_weather():
-    url = "http://openaccess.pf.api.met.ie/metno-wdb2ts/locationforecast?lat=53.3498;long=-6.2603"
+locations = [
+    (53.3498, -6.2603),   # city centre
+    (53.4264, -6.2499),   # airport
+    (53.3020, -6.3743),   # Red Cow / M50-N7
+    (53.2932, -6.1343),   # Dun Laoghaire
+]
+
+def fetch_weather(lat, long):
+    url = f"http://openaccess.pf.api.met.ie/metno-wdb2ts/locationforecast?lat={lat};long={long}"
 
     try:
         response = requests.get(url)
@@ -12,14 +20,35 @@ def fetch_weather():
 
     if response.status_code != 200:
         print(f"fetch failed as {response.status_code}")
+        return None
 
     try:
         root = ET.fromstring(response.text)
-        print(response.status_code)
     except ET.ParseError as e:
         print(f"parse failed as {e}")
         return None
 
     return root
+
+def main():
+    all_rows = []
+    for lat, long in locations:
+        root = fetch_weather(lat, long)
+        if root is None:
+            continue
+        rows = clean_weather(root)
+        all_rows.extend(rows)
+
+        print(len(all_rows))
+        print(all_rows[0])
+        print(all_rows[-1])
+
+    return all_rows
+
+
+if __name__ == "__main__":
+    main()
+
+
 
 
