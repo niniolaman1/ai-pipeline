@@ -18,7 +18,7 @@ def fetch_weather(lat, long):
     url = f"http://openaccess.pf.api.met.ie/metno-wdb2ts/locationforecast?lat={lat};long={long}"
 
     try:
-        response = requests.get(url)
+        response = requests.get(url, timeout=10)
     except requests.exceptions.RequestException as e:
         print(f"fetch failed as {e}")
         return None
