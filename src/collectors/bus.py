@@ -14,7 +14,7 @@ def fetch_gtfs_rt():
 
 
     try:
-        response = requests.get(url=url, headers=headers, verify=certifi.where())
+        response = requests.get(url=url, headers=headers, verify=certifi.where(), timeout=10)
     except requests.exceptions.RequestException as e:
         print(f"fetch failed with an exception: {e}")
         return None
