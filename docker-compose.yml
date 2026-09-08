@@ -31,5 +31,16 @@ services:
     restart: unless-stopped
     command: ["python", "-u", "src/collectors/weather.py"]
 
+  traffic-collector:
+    build: .
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    environment:
+      POSTGRES_HOST: postgres
+    restart: unless-stopped
+    command: ["python", "-u", "src/collectors/traffic.py"]
+
 volumes:
   citypulse-db-data:

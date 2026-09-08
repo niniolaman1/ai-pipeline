@@ -1,6 +1,9 @@
 def clean_weather(root):
 
     harmonie = root.find(".//model[@name='harmonie']")
+    if harmonie is None:
+        print("no harmonie model in this response — skipping")
+        return []
     termin = harmonie.get("termin")
     harmonie_to = harmonie.get("to")
     harmonie_from = harmonie.get("from")
