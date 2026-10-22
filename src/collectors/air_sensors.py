@@ -20,4 +20,5 @@ SENSORS = {
     "DCC-AQ5": "Ballyfermot",
     "DCC-AQ10": "St Johns Road West",
     "DCC-AQ1": "Civic Centre",
+    "DCC-AQ13": "Dublin Port",
 }
