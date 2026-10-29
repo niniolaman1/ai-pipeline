@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 import certifi
 import time
 from collectors.air_sensors import SENSORS
+from pipeline.air_cleaner import clean_readings
+from pipeline.air_loader import insert_air_readings
 
 load_dotenv()
 
@@ -37,17 +39,42 @@ def fetch_readings(serial, start, end):
     return data
 
 
-def fetch_all(hours=24):
-    now = int(time.time())
-    start = now - hours * 3600
+def main():
+    while True:
+        print("cycle starting")
+        now = int(time.time())
+        start = now - 6 * 3600
 
-    results = {}
-    for serial, place in SENSORS.items():
-        rows = fetch_readings(serial, start, now)
-        if rows is None:
-            print(f"{place}: no usable reply, skipping")
-        else:
-            results[serial] = rows
-        time.sleep(0.3)
+        ok = 0
+        failed = []
+        total_new = 0
 
-    return results
+        for serial, place in SENSORS.items():
+            rows = fetch_readings(serial, start, now)
+            if rows is None:
+                failed.append(place)
+                continue
+
+            try:
+                clean = clean_readings(serial, rows)
+            except (KeyError, TypeError) as e:
+                print(f"{place}: could not clean readings ({type(e).__name__})")
+                failed.append(place)
+                continue
+
+            new = insert_air_readings(clean)
+            if new is None:
+                failed.append(place)
+            else:
+                ok += 1
+                total_new += new
+                print(f"{place}: fetched {len(rows)}, new {new}")
+
+            time.sleep(0.3)
+
+        print(f"cycle done: {ok} ok, {len(failed)} failed {failed}, {total_new} new rows")
+        time.sleep(300)
+
+
+if __name__ == "__main__":
+    main()
