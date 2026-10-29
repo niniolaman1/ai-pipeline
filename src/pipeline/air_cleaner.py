@@ -22,3 +22,22 @@ def double_check_readings(rows):
         cleaned.append(check_reading(reading))
     return cleaned
 
+def make_row(serial, item):
+    no2_value, no2_label = item.get("no2", (None, None))
+    pm2_5_value, pm2_5label = item.get("pm2_5", (None, None))
+    pm10_value, pm10_label = item.get("pm10", (None, None))
+
+    return (
+        serial,
+        item["datetime"],
+        no2_value, no2_label,
+        pm2_5_value, pm10_label,
+        pm10_value, pm10_label,
+    )
+
+def clean_readings(serial, rows):
+    checked = double_check_readings(rows)
+    clean = []
+    for item in checked:
+        clean.append(make_row(serial, item))
+    return clean
