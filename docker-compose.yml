@@ -42,5 +42,16 @@ services:
     restart: unless-stopped
     command: ["python", "-u", "src/collectors/traffic.py"]
 
+  air-collector:
+    build: .
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    environment:
+      POSTGRES_HOST: postgres
+    restart: unless-stopped
+    command: ["python", "-u", "src/collectors/air_quality.py"]
+
 volumes:
   citypulse-db-data:
