@@ -37,6 +37,7 @@ def fetch_weather(lat, long):
 
 def main():
     while True:
+        print("cycle starting")
         all_rows = []
         for lat, long in locations:
             root = fetch_weather(lat, long)
