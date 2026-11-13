@@ -60,3 +60,32 @@ def recent_readings(serial, limit: int = 5):
         "place": SENSORS[serial],
         "readings": readings,
     }
+
+@app.get("/air/latest")
+def get_the_most_recent_sensors():
+    conn = get_connection()
+    cur = conn.cursor()
+
+    try:
+        cur.execute(
+            """
+            SELECT DISTINCT ON (serial_number) serial_number,
+                recorded_at, no2, pm2_5, pm10
+            FROM air_quality_readings
+            ORDER BY serial_number, recorded_at DESC
+            """,
+        )
+        data = cur.fetchall()
+
+    finally:
+        cur.close()
+        conn.close()
+
+    readings = []
+    for serial, recorded, no2, pm2_5, pm10 in data:
+        readings.append({"serial": serial, "place": SENSORS.get(serial, "unknown"), "recorded_at": recorded, "no2": no2, "pm2_5": pm2_5, "pm10": pm10})
+
+    return {
+        "count": len(readings),
+        "readings": readings,
+    }
