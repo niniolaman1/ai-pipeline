@@ -22,7 +22,7 @@ def fetch_readings(serial, start, end):
 
     try:
         response = requests.post(URL, json=body, verify=certifi.where(), timeout=30)
-    except requests.exceptions.RequestsExceptions as e:
+    except requests.exceptions.RequestException as e:
         print(f"{serial}: requests failed ({type(e).__name__})")
         return None
 
