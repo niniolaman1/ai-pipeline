@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from collectors.air_sensors import SENSORS
+from api.gtfs import ROUTES, AGENCIES, STOPS
 from dotenv import load_dotenv
 from api.db import get_connection
 
@@ -89,3 +90,14 @@ def get_the_most_recent_sensors():
         "count": len(readings),
         "readings": readings,
     }
+
+@app.get("/bus/routes/{number}")
+def get_bus_no(number):
+    number = number.upper()
+    if number not in ROUTES:
+        raise HTTPException(status_code=404, detail="not a bus route")
+
+    routes = ROUTES[number]
+    count = len(routes)
+
+    return {"number": number, "count": count, "routes": routes}
