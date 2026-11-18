@@ -1,0 +1,8 @@
+agency_id,agency_name,agency_url,agency_timezone
+03C,Go-Ahead Ireland,https://www.goaheadireland.ie/,Europe/London
+1,Bus Átha Cliath – Dublin Bus,https://www.dublinbus.ie/,Europe/London
+10000,LUAS,https://luas.ie,Europe/London
+2,Bus Éireann,https://buseireann.ie,Europe/London
+3,Go-Ahead Ireland,https://www.goaheadireland.ie/,Europe/London
+IR,Iarnród Éireann / Irish Rail,https://www.irishrail.ie/en-ie/,Europe/London
+WFRD,Bus Éireann Waterford,https://www.buseireann.ie,Europe/London
